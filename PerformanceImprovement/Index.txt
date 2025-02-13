@@ -1,0 +1,23 @@
+Create an Index
+Syntax
+The syntax for creating an index in Oracle/PLSQL is:
+
+CREATE [UNIQUE] INDEX index_name
+  ON table_name (column1, column2, ... column_n)
+  [ COMPUTE STATISTICS ];
+UNIQUE
+It indicates that the combination of values in the indexed columns must be unique.
+index_name
+The name to assign to the index.
+table_name
+The name of the table in which to create the index.
+column1, column2, ... column_n
+The columns to use in the index.
+COMPUTE STATISTICS
+It tells Oracle to collect statistics during the creation of the index. The statistics are then used by the optimizer to choose a "plan of execution" when SQL statements are executed.
+
+Types of indexes in Oracle
+B-tree indexes: The default and most common type of index. B-tree indexes automatically stay balanced and perform well for a wide range of queries. 
+Bitmap indexes: Compact indexes that work best for columns with a small set of values. 
+Partitioned indexes: Consist of partitions that contain an entry for each value in an indexed column. 
+Function-based indexes: Based on expressions that can include built-in or user-defined functions. 
