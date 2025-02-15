@@ -66,3 +66,29 @@ SELECT EMPNO,ENAME,JOB,MGR_SAL,DEPTNO
 FROM EMP
 WHERE SAL > AVG_SAL(DEPTNO);
 /
+
+--Question3
+Write "SQL" Statement to select data from Table1 that are not exists in Table2 without using "Not" Keyword.
+
+Table1: Col1 has (A,B,C, D,E)
+Table2: Col1 has (A,C,E,G)
+
+SELECT * FROM Table1 WHERE Col1 NOT IN (SELECT * FROM TABLE2);
+
+SELECT * FROM TABLE1 WHERE NOT EXISTS (SELECT 1 FROM TABLE2 WHERE TABLE2.C1=Table1.C1);
+
+Solution1: Minus
+
+select * from table1
+minus
+select * from table2;
+
+Solution2: Correlated sub query
+select * from table1
+where 1>(select count(*) from table2 where table1.c1=table2.c2);
+
+Solution3: 
+Select * from Table1
+left outer join Table2 on Table1.c1=Table2.C1
+where table2.c1 is null;
+
