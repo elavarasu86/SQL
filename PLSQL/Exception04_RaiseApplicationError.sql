@@ -35,3 +35,24 @@ BEGIN
 END;
 
 / 
+*******************
+SQLERRM - Return Description about the exception
+SQLCODE - Return Error Code
+Example:
+DECLARE
+    v1       NUMBER := 10;
+    v2       NUMBER := 0;
+    v_result NUMBER;
+    e_denom_is_zero EXCEPTION;
+BEGIN
+    IF v2 = 0 THEN
+      raise_application_error(-20001,' e_denom_is_zero');
+    ELSE
+      v_result := v1 / v2;
+    END IF;
+EXCEPTION WHEN OTHERS THEN
+    dbms_output.put_line('SQLERRM - '|| SQLERRM);
+    dbms_output.put_line('SQLCODE - '|| SQLCODE);
+END;
+
+/ 
