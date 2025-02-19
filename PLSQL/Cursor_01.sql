@@ -71,6 +71,12 @@ END;
 
 / 
 
+Note: Below system table helps us to understand more about cursor.
+
+select * from V$OPEN_CURSOR;
+
+select * from V$PARAMETER;
+
 
 
 
