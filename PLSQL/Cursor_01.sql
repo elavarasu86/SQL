@@ -81,7 +81,25 @@ Note: Below system table helps us to understand more about cursor.
 select * from V$OPEN_CURSOR;
 
 select * from V$PARAMETER;
+******************************************************************
 
+What is cursor attributes? Explain cursor attributes.
+
+1. ISOPEN	-- Returns True if cursor is open, False otherwise.
+2. FOUND	-- Information about fetch statement. 
+3. NOTFOUND	-- Information about fetch statement. 
+4. ROWCOUNT	-- Returns number of records fetched from cursor at that point in time.
+
+for implicit cursor we use "SQL"%cursor attributes 
+
+Example:
+SQL%ISOPEN
+SQL%ROWCOUNT
+
+for explicit cursor we use cursor name and cursor attributes.
+
+Example
+cursorname%ISOPEN
 
 
 
