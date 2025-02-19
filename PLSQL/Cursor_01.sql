@@ -9,6 +9,11 @@ Constructed and managed by Oracle. User cannot control it.
 Explicit CURSOR:
 Created and managed by user. Declares, open, fetch and close the cursor.
 
+    Types:
+    1. Named Cursor
+    2. Ref Cursor
+    3. For Cursor
+
 Why we need cursor?
 
 set serveroutput ON
