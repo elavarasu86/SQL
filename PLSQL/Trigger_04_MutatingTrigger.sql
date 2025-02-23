@@ -148,3 +148,52 @@ BEGIN
 END;
 
 / 
+
+-- This can be solved using compound trigger.
+
+CREATE
+OR
+replace TRIGGER comp_tr_log_changes FOR UPDATE ON emp_t compund TRIGGER 
+  lv_ceo_sal NUMBER;
+BEFORE STATEMENT
+IS
+BEGIN
+  SELECT sal
+  INTO   lv_ceo_sal
+  FROM   emp_t
+  WHERE  job = 'CEO';
+
+END BEFORE STATEMENT;
+BEFORE EACH ROW
+IS
+BEGIN
+  IF ( :new.sal < pkg1.lv_ceo_sal
+    AND
+    :old.job <> 'CEO' )
+    OR
+    (
+      :old.job = 'CEO'
+    )
+    THEN
+    INSERT INTO emp_sal_log VALUES
+                (
+                            :new.empno,
+                            'salary updated successfully :'
+                                        ||'OLD SAL = '
+                                        ||:old.sal
+                                        ||', NEW SAL = '
+                                        ||:new.sal
+                );
+  
+  ELSE
+    :new.sal := :old.sal;
+    INSERT INTO emp_sal_log VALUES
+                (
+                            :new.empno,
+                            'Salary NOT UPDATED : Employee salary cannot be more than '
+                                        ||lv_ceo_sal
+                );
+  
+  END IF;
+END BEFORE EACH ROW;
+END comp_tr_log_changes;/
