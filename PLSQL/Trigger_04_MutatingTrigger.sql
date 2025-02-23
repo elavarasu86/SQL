@@ -88,3 +88,63 @@ BEGIN
 END;
 
 / 
+***************************************
+/*How to avoid mutating trigger:
+
+Mutating trigger will happen on row level trigger not on statement level trigger.
+
+so above piece of code is changed as below.*/
+
+--Creating a package to hold global variable.
+
+CREATE OR replace PACKAGE pkg1
+AS
+  lv_ceo_sal NUMBER;
+END;
+
+/ 
+
+--Creating a Statement level trigger to avoid mutating trigger.
+
+CREATE OR replace TRIGGER trig_before_up_sal
+  BEFORE UPDATE OF sal ON emp_t
+DECLARE
+    lv_max_sal NUMBER;
+BEGIN
+    SELECT sal
+    INTO   pkg1.lv_ceo_sal
+    FROM   emp_t
+    WHERE  job = 'CEO';
+END;
+
+/ 
+
+-- Changed Row level trigger
+CREATE OR replace TRIGGER trig_sal
+  BEFORE UPDATE OF sal ON emp_t
+  FOR EACH ROW
+DECLARE
+    lv_ceo_sal NUMBER;
+BEGIN
+
+    IF ( :new.sal < pkg1.lv_ceo_sal
+         AND :old.job <> 'CEO' )
+        OR ( :old.job = 'CEO' ) THEN
+      INSERT INTO emp_sal_log
+      VALUES      (:new.empno,
+                   'salary updated successfully :'
+                   ||'OLD SAL = '
+                   ||:old.sal
+                   ||', NEW SAL = '
+                   ||:new.sal);
+    ELSE
+      :new.sal := :old.sal;
+
+      INSERT INTO emp_sal_log
+      VALUES      (:new.empno,
+                   'Salary NOT UPDATED : Employee salary cannot be more than '
+                   ||lv_ceo_sal);
+    END IF;
+END;
+
+/ 
