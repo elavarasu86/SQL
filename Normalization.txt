@@ -1,0 +1,107 @@
+First Normalization:
+	1. Each field of a table may contain only one item.
+	2. All of the data items in a column must mean the same thing.
+	3. Each row of the table must be unique.
+	4. A table must have no repeating columns
+	
+Example:
+Student_Name		Course Titles
+Arun Kumar			Computer Science, Math,Physics
+Ramesh Krishna		Physics,Chemistry
+Arun Vijay			Music
+Ramesh Krishna		Physics,Chemistry
+
+In above table Student Name is combination of first and last name that is possible but 2 and 4th record are exactly same.
+
+ID	Student_Name		Course Titles
+1	Arun Kumar			Computer Science, Math,Physics
+2	Ramesh Krishna		Physics,Chemistry
+3	Arun Vijay			Music
+4	Ramesh Krishna		Physics,Chemistry
+
+with above change no record is duplicate of another, but still couse title has multiple value in it that violates First normal form.
+
+
+ID	Student_Name		Course Titles		Course Titles2	Course Titles3
+1	Arun Kumar			Computer Science 	Math			Physics
+2	Ramesh Krishna		Physics				Chemistry
+3	Arun Vijay			Music
+4	Ramesh Krishna		Physics				Chemistry
+
+with above change no multiple value in single column but columns are repeating also lot of records has lot of null value fields.
+
+ID	Student_Name		Course Titles
+1	Arun Kumar			Computer Science 	
+1	Arun Kumar			Math			
+1	Arun Kumar			Physics
+2	Ramesh Krishna		Physics				
+2	Ramesh Krishna		Chemistry
+3	Arun Vijay			Music
+4	Ramesh Krishna		Physics				
+4	Ramesh Krishna		Chemistry
+
+***********************************************************
+Second Normalization:
+	1. Data must be in First Normal form.
+	2. No partial dependency.
+	3. Occurs when there is composite key.
+	
+Example:
+
+StudentID	Course		Name	Marks	Teacher
+101			Physics		Venky	85		Jack
+102			Chemisty	Vetri	90		Mike
+101			Tamil		Venky	75		Selvam
+104			English		Adhavan	63		Prema
+105			History		Sam		73		Taylor
+106			Biology		Ela		93		Sam
+
+In the above table if we consider StudentID as primary key, Student 101 has two entries
+so it alone cannot be primary key for the table, we can add course also into primary key,
+then each record become unique. When two or more column combined it becomes composite key(primary key). If you see teacher field that field is depend on Course field(partially depend on primary key) physics is thought by jack, chemistry is thought by mike and so on there is no relationship between studentid and teacher field. This is called partial dependency.
+
+Above table can be converted into below to be in 2nd normal form.
+Table1:
+StudentID	Course		Name	Marks	
+101			Physics		Venky	85		
+102			Chemisty	Vetri	90		
+101			Tamil		Venky	75		
+104			English		Adhavan	63		
+105			History		Sam		73		
+106			Biology		Ela		93		
+Table2:
+Course		Teacher
+Physics		Jack
+Chemistry   Mike
+Tamil       Selvam
+English     Prema
+History     Taylor
+Biology     Sam
+
+***********************************************************
+Third Normal Form:
+	1. Should be in 2NF.
+	2. No Transitive dependency
+	3. Occurs when you can guess value of any column from non key column.
+	
+Example:
+
+S.no	Country	Groud	Capacity
+1		AusvsEngMCG		80K
+2		ZimVsEngHobart	30K
+3		IndVsSAChepak	65
+
+In the above table capacity field is depend on Ground field, Ground field is not a primary key field, if a non key field depends on non key field then it becomes Transitive dependency.	
+
+Above table can be converted into below ones.
+Table1:
+S.no	Country	Groud	
+1		AusvsEngMCG		
+2		ZimVsEngHobart	
+3		IndVsSA	Chepak	
+
+Table 2:
+Groud	Capacity
+MCG		80K
+Hobart	30K
+Chepak	65
