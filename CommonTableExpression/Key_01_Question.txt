@@ -1,0 +1,22 @@
+Constraint and index questions.
+
+1. Does "Creating a primary key constraint" always create an index automatically?
+If the column is not index already Oracle will create an index.
+If the column is index already Oracle will not create an index.
+
+2. Will "Dropping constraint", will drop underlying index?
+If the index is created automatically with primary key contraint then while dropping constraint will drop index.
+If the index is created separately then dropping constraint will not drop index. As index was created separately.
+
+3. Will dropping "Table" will drop underlying index?
+Yes.
+
+4. Can a Primary Key creates nonunique index?
+Yes. By using eferrable Novalidate key.
+
+5. We can "unique index" or "unique Constraint" to enforce uniqueness of a column.
+What is the difference? And when to use what?
+Unique constraint automatically creates an unique index(but not always)
+Unique Constraint is for data integrity, whereas unique index is for performance improvement.
+Foreign key can be created over unique constraint, not over a unique index.
+Sometimes, we might be interested to create unique index but not a unique constraint.
