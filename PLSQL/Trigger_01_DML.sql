@@ -49,3 +49,9 @@ END;
 	1. Insert (Before/After)
 	2. Update (Before/After)
 	3. Delete (Before/After)
+
+Can we create same type of trigger on a table. yes we can do that.
+	If you create same type of trigger on a table, Oracle does not follow any specific order to execute the triggers, if developer has complelling reason then we can
+instruct Oracle to follow developer mentioned order. Use below keyword to do so.
+
+	"Follow trigger_name_To_Be_Followed".
