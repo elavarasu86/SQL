@@ -79,3 +79,59 @@ WHEN NOT matched THEN
   VALUES (emp_src.empno,
           emp_src.ename,
           emp_src.sal);
+
+
+----Merge exception for this lets take same tables with minor change in source : Ename length is 30.
+
+CREATE TABLE emp_src
+  (
+     empno NUMBER PRIMARY KEY,
+     ename VARCHAR2(30),
+     sal   NUMBER(5)
+  ); 
+  
+CREATE TABLE emp_tgt
+  (
+     empno NUMBER PRIMARY KEY,
+     ename VARCHAR2(10),
+     sal   NUMBER(5)
+  ); 
+  
+emp_tgt
+
+empno	ename		sal
+1		Ravi		1000
+2		Raghu		2000
+3		Priya		3000
+4		Kavin		4000
+
+emp_src
+
+empno	ename			sal
+1		Ravi			1000
+2		Raghu			2000
+3		Priya			3500
+4		Kavin			4000
+5		Suman Chandra	5000
+
+-- as the ename length is 30 in source and 10 in target when trying to into new record into target we will get exception.
+
+merge
+INTO         emp_tgt
+USING        emp_src
+ON (
+                          emp_tgt.empno = emp_src.empno )
+WHEN matched THEN
+UPDATE
+SET              sal = emp_src.sal
+WHEN NOT matched THEN
+INSERT values
+       (
+              emp_src.empno,
+              emp_src.ename,
+              emp_src.sal
+       )
+       log errors
+INTO   err$_emp_tgt reject limit UNLIMITED;
+		  
+-- error records will go into error log table and remaining transaction will continue.
