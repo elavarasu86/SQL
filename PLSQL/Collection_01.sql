@@ -97,3 +97,73 @@ BEGIN
   dbms_output.Put_line('NAME = '
   ||lv_emp_rec.ename);
 END;/
+-------------------------------------------------------
+--TYPE
+-- creating assigning value
+
+--Option1:
+SET serveroutput on
+declare 
+TYPE emp_rec_typ IS
+  RECORD
+  (
+    empname varcahr2(100),
+    empsal NUMBER); -- As part of type definition we are setting the fields this type record is going to hold. For example in employee%rowtype will hold all the fields or employee table similarly here we setting what value is going to hold.
+	emp_rec emp_rec_type;
+BEGIN
+  emp_rect.empname := 'ELA';
+  emp_rec.empsal:=10000;
+END;/
+
+--Option2:
+SET serveroutput on
+declare 
+TYPE emp_rec_typ IS
+  RECORD
+  (
+    empname varcahr2(100),
+    empsal NUMBER);
+emp_rec emp_rec_type := emp_rec_type('ELA',10000); -- Here we are assigning value as part of constructor.
+BEGIN
+  
+END;/
+
+--Option3:
+
+SET serveroutput on
+declare 
+TYPE emp_rec_typ IS
+  RECORD
+  (
+    empname varcahr2(100),
+    empsal NUMBER);
+	emp_rec emp_rec_type;
+BEGIN
+	SELECT ENAME,SAL INTO EMP_REC FROM EMP WHERE EMPNO=1;
+END;
+/
+
+--Setting Not null value
+SET serveroutput on
+declare 
+TYPE emp_rec_typ IS
+  RECORD
+  (
+    empname varcahr2(100) not null := 'ELA',
+    empsal NUMBER); 
+	emp_rec emp_rec_type;
+BEGIN
+  emp_rect.empname := 'ELA';
+  emp_rec.empsal:=10000;
+END;/
+
+set serveroutput on
+declare
+type emp_rec_type is record ( empname emp.name%type,
+empsal emp.sal%type);
+emp_rec emp_rec_typ;
+lv_ename emp.ename%type;
+BEGIN
+--plsql statement;
+end;
+/
