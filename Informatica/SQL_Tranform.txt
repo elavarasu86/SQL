@@ -1,0 +1,22 @@
+SQL Transformation:
+
+Used to execute SQL query as part of this transformation. Logic will be provided in SQL Ports section.
+We can create as many output port as we like, but for each output port we have to add SQL query. Input port are available by default.
+We have query mode and script Mode for below change we have done with query mode.
+We have static and dynamic connect.
+
+ForExample:
+
+Source Table.
+DatabaseName
+TableName
+HierarchyName
+QueryPort -- which will have sql statement. select max(load_date) from plcy
+
+By executing sql statement we get from queryport the result will be sent to Load_Date field.
+
+Target Table:
+DatabaseName
+TableName
+HierarchyName
+Load_Date
