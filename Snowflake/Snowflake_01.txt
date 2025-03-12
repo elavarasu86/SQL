@@ -1,0 +1,55 @@
+Snowflake?
+
+Cloud Native, Data Platform, Software as a Service
+
+Data Platform(Data Warehouse)
+
+Data Warehouse -
+	- Snowflake organizes data in database, schemas and tables
+	- Users can inject data in csv and query as ANSI standard SQL
+	- Snowflake is ACID compliant transactions
+	- Structured and relational data.
+	
+Data Lake -
+	- Snowflake can scale out storage in petabite 
+	- Natively process semi-structured data format like json avro
+	- Schema does not need to be defined upfront.
+
+Data Engineering -
+	-Copy into & snowpipe
+	- Tasks and Streams
+	- Separate compute clusters for ETL and data science
+	- All data encrypted at rest and in transit.
+	
+Data Science - 
+	- Partner eco-system includes 
+		data science tooling:
+			- Amazon SageMaker
+			- DataRobot
+			- Dataiku
+	- Remove data management roadblocks with centralized storage
+	
+Data Sharing -
+	- Secure Data Sharing (one account share data with another account)
+	- Data MarketPlace
+	- Data Exchange
+	- BI with the Snowflake partner ecosystem tools
+	
+Data Applications -
+	- Connectors and Drivers (python)
+	- UDFs and Stored Procedures (can be written in python stored procedure)
+	- External UDFs
+	- Preview features such as Snowpark
+	
+Cloud Native - Build for cloud
+	- All Snowflake infrastructure runs on the cloud in either AWS, GCP or Azure.
+	- Snowflake makes use of cloud's elasticity, scalability, high availability, cost-efficiency and durability.
+	
+Software as a service(SaaS)
+	- No management of hardware
+	- Transparent updates and patches
+	- Subscription payment model
+	- Ease of access
+	- Automatic optimisation
+	
+	

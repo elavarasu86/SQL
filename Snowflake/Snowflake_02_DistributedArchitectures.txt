@@ -1,0 +1,53 @@
+Distributed Architectures
+
+Shared-Disk
+
+Cluster1	Cluster2	Cluster3	Cluster4
+
+				Shared-Disk
+				
+In above each cluster has access to shared-disk, each of them can read and write data into Shared-Disk
+
+	Advantages
+		Relatively simple to manage
+		Single source of truth
+	
+	Disadvantages
+		Single point of failure
+		Bandwidth and network latency
+		Limited scalability
+	
+
+Shared Nothing
+
+Cluster1	Cluster2	Cluster3	Cluster4
+
+Disk1		Disk2		Disk3		Disk4
+
+In above each cluster has access only to Disk it is assigned 
+
+	Advantages
+		- Co-locating compute and storage avoids networking latency issues
+		- Generally cheaper to build and maintain
+		- improved scaling over shared-disk architecture	
+	
+	Disadvantages
+		- Scaling still limited
+		- Storage and compute tightly coupled
+		- Tendency to overprovision
+		
+***********************************************************************************
+
+MULTI-CLUSTER SHARED DATA ARCHITECTURE.
+
+
+	Authentication and access Control
+
+________________		________________		
+|Infrastructure	|		|Query			|
+|Management		|		|Optimiser		|
+|_______________|		|_______________|
+
+Decouple storage, compute and management services.
+Three infinitely scalable layers
+Workload isolation with virtual warehouses.
