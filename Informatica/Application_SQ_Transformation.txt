@@ -1,0 +1,21 @@
+Application Source Qualifier Transformation.
+
+Is used to fetch record from cloud database like Snowflake.
+
+	- Transformation
+	- Port
+	- Properties -- Only tracing level and Output is deterministic 
+	- Sources
+	- Metadata Extensions
+	- Edit Conditions
+		- we can add filter condition
+		- we can add join condition
+		
+Connection details:
+	Account details
+	Warehouse
+	Role
+	Additional JDBC URL Path
+
+
+SQL Override can be added in session level.	
