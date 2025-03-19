@@ -18,6 +18,21 @@ EXCEPTION
 END;
 /
 **********************************************
+--Pragma_Exception gives a name to un-named exception 
+-Usually a un-named exception is handled using OTHERS category. If you want to handle a particular un-named exception differently then we can use Pragma_Exception
+
+--for example
+
+--    INSERT INTO exp
+--                (empno)
+--    VALUES     (7777777777777777);
+	
+--this statement will through error with error code ora-01438 value larger than specified precision allowed for this column.
+--Usually to handle this exception Other session will be used.
+
+--    e_value_greater_than_limit EXCEPTION; -- error name
+--    PRAGMA EXCEPTION_INIT(e_value_greater_than_limit, -01438); -- error code assigned to a name as part of this statement.
+
 
 DECLARE
     v_num NUMBER;
