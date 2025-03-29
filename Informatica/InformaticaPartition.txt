@@ -1,0 +1,12 @@
+Partitions:
+	- DataBase
+	- PassThourgh	Default 
+	- Round Robin
+	- Hash Key
+	- Key Range
+	
+Partition can be create at source qualifier, target and transformations.
+
+Add Partition Point
+Delete Partition Point
+Edit Partition Point
