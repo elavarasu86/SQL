@@ -1,0 +1,9 @@
+Update Strategy Transformation: Final table should be having key @ Informatica level
+	Below values are used to flag the records in Update Strategy Expression.
+	-- DD_UPDATE(1)
+	-- DD_INSERT(0)
+	-- DD_DELETE(2)
+	-- DD_REJECT(3)
+
+
+DataDriven is the property @session level, which helps in Inserting, Updating, Or Deleting records based on the flag set at Update Strategy Transformation.
