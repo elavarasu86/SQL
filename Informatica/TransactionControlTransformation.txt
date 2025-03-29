@@ -1,0 +1,11 @@
+Transaction Control Transformation:
+we tried to commit and rollback while loading is in-progress based on some condition.
+
+Scenario:
+	For example if you want to load Employee table to target which has Department ID. When you start seeing Department ID 20 if you want to commit we can use TCT. 
+	
+	TC_CONTINUE_TRANSACTION
+	TC_COMMIT_BEFORE
+	TC_COMMIT_AFTER
+	TC_ROLLBACK_BEFORE
+	TC_ROLLBACK_AFTER
