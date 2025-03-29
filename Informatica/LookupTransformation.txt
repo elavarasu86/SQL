@@ -1,0 +1,16 @@
+Static Lookup:
+
+
+
+Informatica Dynamic Lookup Cache:(Scenario - source has duplicate record in that case we can use Dynamic lookup.)
+	- Values are updated while loading data.
+	- Can be only on Connected mode and support only equality condition.
+	- We cannot use FlatFile in Dynamic lookup.
+	
+NewLookUpRow - Port In Dynamic Lookup will be created automatically. This field is used to generate below values.
+Values - 
+0  -- No change Source and target record values are same.
+1  -- No Match found in target, insert new Record from source.
+2  -- Matching record found in target, update will happen.
+
+Associated Expression will be used for compare field.
