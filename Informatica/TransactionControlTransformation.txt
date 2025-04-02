@@ -4,8 +4,7 @@ we tried to commit and rollback while loading is in-progress based on some condi
 Scenario:
 	For example if you want to load Employee table to target which has Department ID. When you start seeing Department ID 20 if you want to commit we can use TCT. 
 	
-	TC_CONTINUE_TRANSACTION
-	TC_COMMIT_BEFORE
-	TC_COMMIT_AFTER
-	TC_ROLLBACK_BEFORE
-	TC_ROLLBACK_AFTER
+		TC_CONTINUE_TRANSACTION. The PowerCenter Integration Service does not perform any transaction change for the current row. This is the default transaction control variable value.
+		TC_COMMIT_BEFORE. The PowerCenter Integration Service commits the transaction, begins a new transaction, and writes the current row to the target. The current row is in the new transaction.
+		TC_COMMIT_AFTER. The PowerCenter Integration Service writes the current row to the target, commits the transaction, and begins a new transaction. The current row is in the committed transaction.
+		TC_ROLLBACK_BEFORE. The PowerCenter Integration Service rolls back the current transaction, begins a new transaction, and writes the current row to the target. The current row is in the new transaction.
