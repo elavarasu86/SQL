@@ -1,0 +1,32 @@
+Teradata Index Types:
+	
+	Primary index
+		In general, all database tables require a primary index because the system distributes tables on their primary indexes. Primary indexes can be:
+			Unique
+				Unique primary index (UPI)
+					UPIs provide optimal data distribution and are typically assigned to the primary key for a table. When a NUPI makes better sense for a table, then the primary key is frequently assigned to be a USI.
+				Unique secondary index (USI)
+					USIs guarantee that each complete index value is unique, while ensuring that data access based on it is always a two-AMP operation.
+					
+			nonunique 
+				A nonunique index does not require its values to be unique. There are occasions when a nonunique index is the best choice as the primary index for a table.
+				NUSIs are also very useful for many decision support situations.
+			
+			CREATE SET TABLE TABLENAME (COUNTS_STATUS_ID INTEGER, COUNTS INTEGER) PRIMARY INDEX(COUNTS) INDEX (COUNTS_STATUS_ID);
+				In the above create table statement primary index is created on "counts" column and second index created on "counts_status_id" column. Both are not unique.
+				
+				
+			Partitioned or nonpartitioned.
+			
+				A nonpartitioned primary index (NPPI) is the traditional primary index by which rows are assigned to AMPs.
+				A partitioned primary index (PPI) allows rows to be partitioned, based on some set of columns, on the AMP to which they are distributed, and ordered by the hash of the primary index columns within the partition.
+				A PPI can improve query performance through partition elimination. A PPI provides a useful alternative to an NPPI for executing range queries against a table, while still providing efficient access, join, and aggregation strategies on the primary index.
+			
+	Secondary index
+		Secondary indexes can be unique or nonunique.
+
+	Join index (JI)
+	
+	Hash index
+	
+	SELECT * FROM DBC.INDICESV -- Will hold all the index details.
