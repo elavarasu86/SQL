@@ -43,3 +43,28 @@ START WITH name = 'Alice'
 CONNECT BY NOCYCLE PRIOR emp_id = manager_id;
 
 --Above script avoid infinity loop because of NOCYCLE keyword, if we remove NOCYCLE keyword from above SQL, Oracle will through error.
+
+
+
+------------------------------------------------------------------DATA------------------------------------------------------------------
+CREATE TABLE employees (
+    employee_id NUMBER PRIMARY KEY,
+    employee_name VARCHAR2(100),
+    manager_id NUMBER
+);
+
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7839, 'King', NULL); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7369, 'Smith', 7902); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7499, 'Allen', 7698);
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7521, 'Ward', 7698);
+ 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7566, 'Jones', 7839); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7654, 'Martin', 7698);
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7698, 'Blake', 7839); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7782, 'Clark', 7839); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7788, 'Scott', 7566);
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7844, 'Turner', 7698); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7876, 'Adams', 7788); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7900, 'James', 7698);
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7902, 'Ford', 7566); 
+INSERT INTO employees (employee_id, employee_name, manager_id) VALUES (7934, 'Miller', 7782); 
