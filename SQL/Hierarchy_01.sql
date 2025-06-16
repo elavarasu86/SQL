@@ -27,3 +27,19 @@ Example3:
 
 SELECT LEVEL+(5)
 FROM dual CONNECT BY LEVEL <=50 -- Here we can start from 6 instead of 1.
+
+/*NOCYCLE*/
+
+WITH employees AS (
+    SELECT 1 AS emp_id, 'Alice' AS name, 2 AS manager_id FROM dual
+    UNION ALL
+    SELECT 2, 'Bob', 3 FROM dual
+    UNION ALL
+    SELECT 3, 'Charlie', 1 FROM dual -- This creates a cycle
+)
+SELECT emp_id, name, manager_id, LEVEL
+FROM employees
+START WITH name = 'Alice'
+CONNECT BY NOCYCLE PRIOR emp_id = manager_id;
+
+--Above script avoid infinity loop because of NOCYCLE keyword, if we remove NOCYCLE keyword from above SQL, Oracle will through error.
