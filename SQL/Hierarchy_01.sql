@@ -44,8 +44,33 @@ CONNECT BY NOCYCLE PRIOR emp_id = manager_id;
 
 --Above script avoid infinity loop because of NOCYCLE keyword, if we remove NOCYCLE keyword from above SQL, Oracle will through error.
 
+--Hierarchy Query:
+SELECT employee_id,
+       employee_name,
+       manager_id,
+       LEVEL
+FROM employees 
+START WITH manager_id IS NULL connnect BY
+PRIOR employee_id =manager_id
+ORDER BY LEVEL;
 
-
+--Recursive Query:
+WITH wemp(employee_id, employee_name, manager_id, manager_name) AS
+  (SELECT employee_id,
+          employee_name,
+          manager_id,
+          '' AS manager_name
+   FROM employees
+   WHERE manager_id IS NULL
+   UNION ALL SELECT emp.employee_id,
+                    emp.employee_name,
+                    emp.manager_id,
+                    wemp.employee_name
+   FROM wemp,
+        employees emp
+   WHERE emp.manager_id = wemp.employee_id)
+SELECT *
+FROM wemp;
 ------------------------------------------------------------------DATA------------------------------------------------------------------
 CREATE TABLE employees (
     employee_id NUMBER PRIMARY KEY,
