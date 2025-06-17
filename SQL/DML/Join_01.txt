@@ -1,7 +1,8 @@
 Joins:
 
 Inner Join:
-![Image](https://github.com/user-attachments/assets/a8bf0ae1-8156-4d73-80e3-9ec014e4c847)
+
+![Image](https://github.com/user-attachments/assets/19ccb27e-f8f2-4212-8b0b-c71c21f4cda6)
 
 Left Outer Join:
 
