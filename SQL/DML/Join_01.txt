@@ -1,0 +1,9 @@
+Joins:
+
+Inner Join:
+
+
+Left Outer Join:
+
+
+Right Outer Join:
