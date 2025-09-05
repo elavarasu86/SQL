@@ -1,0 +1,38 @@
+Delta Lake:(Data is stored in Parquet file. Usually Parquet file was not overwritable, with Delta Lake concept we can overwrite parquet file like INSERT, UPDATE and DELETE)
+	Is Open
+	Reliable
+	Scalable data management for the Lakehouse.
+	
+	Has
+		Bronze(raw)
+		Silver(cleaned)
+		Gold(curated)
+	
+	With
+		ACID transaction
+		time travel
+		schema enforcement
+	
+	Supports
+		Batch
+		Streaming workload.
+		
+Delta Lake Definition:
+Delta Lake is an open-source storage framework that enables building a format agnostic Lakehouse architecture with compute engines including Spark, PrestoDB, Flink, Trino, Hive, Snowflake, Google BigQuery, Athena, Redshift, Databricks, Azure Fabric and APIs for Scala, Java, Rust, and Python. With Delta Universal Format aka UniForm, you can read now Delta tables with Iceberg and Hudi clients.
+
+Delta Tables:
+	Is an open table format that supports the Lakehouse architecture.
+	
+	A Delta table is a database-like table built on top of a data lake, using the open-source Delta Lake format to provide features like ACID transactions, time travel, schema enforcement, and high-performance batch and streaming processing for large datasets. Stored as a collection of Parquet files in cloud object storage, Delta tables are managed by a transaction log that tracks all changes, enabling users to perform standard database operations (insert, update, delete, merge) reliably on big data.
+	
+	DeltaTableName/
+	343e.snappy.parquet		00000.json
+	431c.snappy.parquet		00001.json
+	083d.snappy.parquet		00002.josn
+	
+	Data is stored as	+	Transaction logs with metadata
+	parquet files
+	
+	Delta tables store data within a folder directory. within the directory, data is stored as parquet files, and what Delta adds is delta logs stored as JSON files alongside the parquet files. The Delta logs keep track of all the the transactions on the data(parquet files) and table versions.
+	
+	The transaction logs provide a wide array of functionality to the delta table. With the transaction log, we now have the concept of tables states, so if you insert, delete or update data in your table, Delta basically adds a transaction( the log file) and your table stays updated and manged. So, with the transaction log you are able to easily get consistent views of your data and you're actually able to travel back in time.
