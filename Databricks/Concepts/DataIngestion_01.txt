@@ -1,0 +1,38 @@
+Data Ingestion From CloudStorage:
+
+ Throught data ingestion large volumne of data stored in organization cloud storage will be covernverted into Delta tables.
+ 
+For example:
+
+CloudStorage			DataIngestion
+________			 ___________________			 ___________________
+CSV		|			|CREATE TABLE AS	|           |					|
+JSON	|			|COPY INTO			|           |                   |
+PARQUET	|	=>		|AUTO LOADER		|	=>      |      DeltaTables  |
+ORC		|			|					|           |                   |
+________|			|___________________|           |___________________|
+
+Three primary methods for ingesting files from cloud object storage are below
+	
+	1. CREATE TABLE AS (CTAS)
+	2. COPY INTO 
+	3. AUTO LOADER
+
+
+Method1:
+	
+		CREATE TABLE new_table AS							
+		SELECT * 
+		FROM read_files(
+			<path_to_file(s)>,
+			format => '<file_type>',
+			<other_format_specific_options)
+		);
+		
+		CREATE TABLE AS (CTAS) creates a Delta table by default from files in cloud object storage
+		
+		The read_files() function reads files under a provided location and retuns the data in tabular format
+			Supports reading file format like JSON, CSV, XML, TEXT, BINARYFILE, PARQUET, AVRO file formats.
+			Can detect the file format automatically and infer a unified schema across all files.
+			Allows  you to specify format-specific options for greater control when reading source files.
+			Can be used in streaming tables to incrementally ingest files into Delta lake using Auto Loader.
