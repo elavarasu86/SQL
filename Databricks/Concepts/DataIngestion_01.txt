@@ -19,7 +19,7 @@ Three primary methods for ingesting files from cloud object storage are below
 	3. AUTO LOADER
 
 
-Method1:
+Method1: CTAS
 	
 		CREATE TABLE new_table AS							
 		SELECT * 
@@ -36,3 +36,82 @@ Method1:
 			Can detect the file format automatically and infer a unified schema across all files.
 			Allows  you to specify format-specific options for greater control when reading source files.
 			Can be used in streaming tables to incrementally ingest files into Delta lake using Auto Loader.
+			
+Method2:	INCREMENTAL BATCH - COPY INTO (legacy)
+
+		CREATE TABLE new_table; 
+		
+		COPTY INTO new_table
+		FROM '<directory_Path>'
+		FILEFORMAT = <file_format>
+		FORMAT_OPTIONS(<options>)
+		COPY_OPTIONS(<options>)
+
+		CREATE TABLE new_table; 
+			1. Create an empty table to copy data into. In the above statement schema is not defined. Also we have option to create table with schema.
+		
+		/* NEED TO CHECK BELOW LINE*/
+		This command peforms bulk load.
+
+		COPTY INTO new_table
+		FROM '<directory_Path>'
+		FILEFORMAT = <file_format>
+		FORMAT_OPTIONS(<options>)
+		COPY_OPTIONS(<options>)
+		
+			2. COPY INTO for incremental batch ingestion
+			
+				- Ia a retriable and idempotent operation and will skip files that have already been loaded(incremental)
+				- Support various files types
+				- From specifies Cloud Storage Location
+				- FORMAT_OPTIONS() helps parse and interprete. 
+				- COPY_OPTIONS() helps in determine schema evolution(mergeSchema) and idempotency(force)
+				
+Method3: Incremental Batch or Streaming - Auto Loader 
+
+		- Incrementally and efficiently processes new data files (in batch or streaming) as they arrive in cloud storage without any additional setup
+		- Auto loader has support for both Python and SQL(Leveraging Declarative Pipelines)
+		- you can use Auto Loader to process billions of files
+		- Auto Loader is built upon Spark Structured Streaming
+		
+	Python Auto Loader:
+	
+		(Spark
+		.readStream
+			.format("cloudFiles")
+			.option("cloudFiles.format","json")
+			.option("cloudFiles.schemaLocation", "<checkpoint_path>")
+			.load("/Volumes/catalog/schema/files")
+		.writeStream
+			.option("checkpointLocation", "<chekpoint_path>")
+			.trigger(processingTime="5 seconds")
+			.toTable("catalog.database.table")
+		)
+		
+		Auto Loader in Python to read straming data from cloud storage:
+		
+			- We start with .readStream and set the format to "cloudFiles", which enables Auto Loader.
+			- Then, we specify the file format.
+			- cloudFiles.schemaLocation is used to define schema location which is used to track schema inference and evolution.
+			
+			- checkpointLocation used to maintain state and progress
+			- processingTime used to trigger on a specified interval.
+	
+	SQL Auto Loader:
+	
+		CREATE OR REFRESH STRAMING TABLE
+		catalog.schema.table SCHEDULE every 1 hour
+		AS
+		SELECT * 
+		FROM STREAM read_files(
+			'<dir_path>',
+			format => '<file_type>'
+		)
+		
+			- Databricks recommends using streaming tables to ingest data with Databricks SQL(instead of COPY INTO). A streaming table is a table registered to Unity Catalog that includes additional support for streaming or incremental data processing. When you create a streaming table, a pipeline is automatically generated for it. Streaming tables can be used for incremental data loading from both Kafka and cloud object storage.
+			
+			- To create a streaming table from files in a volume, you use Auto Loader. Databricks recommends using Auto Loader with Lakeflow Declarative Pipelines for most data ingestion tasks from cloud object storage. Together, Auto Loader and Declarative Pipelines are designed to incrementally and idempotentaly load continuously growing datasets as they arrive.
+			
+			- Streamikng tables in Databricks SQL are bakced by serverless Lakeflow Declarative pipelines. Your workspace must support serverless piplines to use this functinality. Alternatively, you can build you own lakeflow Declarative Pipelines for incremental processing, optimization, and monitoring. Declarative Pipelines offer a range of additional features, which you can learn more about here: https://docs.databricks.com/aws/en/dlt/
+			
+			- To use Auto Loader in Databricks SQL, use the read_files function with the STREAM keyword in the FROM clause.
