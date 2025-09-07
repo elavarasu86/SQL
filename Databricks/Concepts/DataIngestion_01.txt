@@ -115,3 +115,14 @@ Method3: Incremental Batch or Streaming - Auto Loader
 			- Streamikng tables in Databricks SQL are bakced by serverless Lakeflow Declarative pipelines. Your workspace must support serverless piplines to use this functinality. Alternatively, you can build you own lakeflow Declarative Pipelines for incremental processing, optimization, and monitoring. Declarative Pipelines offer a range of additional features, which you can learn more about here: https://docs.databricks.com/aws/en/dlt/
 			
 			- To use Auto Loader in Databricks SQL, use the read_files function with the STREAM keyword in the FROM clause.
+			
+			
+Feature|CREATE TABLE AS(CTAS) + SPARK.READ|COPY INTO|AUTOLOADER
+Ingestiontype|Batch|Incrementalbatch|Incremental(Batch and Streaming)
+UseCase|Best for Small Dataset|ideal for thousands of File|Scale to Millions of file per hour, backfills with billions of files.
+Syntax/Interface|Python(Spark.read)/SQL(CTAS)|SQL|Python(Spark.Readstream)/SQL with declarative pipeline
+Idempotency|No|Yes|Yes
+SchemaEvolution|Manual or inferred during read|Supported with option|Auto loader automatically detects and evolve schema. It supports loading data without predefined schema and handles new column as they appear.
+Latench|High|Moderate(Scheduled)|Low and Hight depending configuration
+Ease of use|Simple|Simple and SQL based|Intermediate to advanced depending on the implementation.
+Summary|Best for one time and adhoc ingestion. Can be scheduled to always read and process all data.|Simple and repetable for incremental files ingestion. Great for Scheduled jobs and pipelines.|Best for near real time streaming or incremental ingestion, with high automation and scalability.
