@@ -1,3 +1,3 @@
 Apache Spark Components
 
-    !(Databricks/Images/SparkComponents.jpg)
+    ![Image](Databricks/Images/SparkComponents.jpg)
