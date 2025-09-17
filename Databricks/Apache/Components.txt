@@ -1,0 +1,43 @@
+Apache Spark Components
+
+						DriverNode
+		Where main method will run(Convert user program to task)
+
+						ClusderNode:
+			External service, launches application on set of machines
+			Built-in standalone cluster manager
+			other supported cluster managers(hadoop, mesos)
+
+WorkderNode1	WorkderNode2	WorkderNode3	WorkderNode4
+Task will be executed in worker nodes
+Compute Nodes in Spark ( Process the tasks)
+
+Executor1		Executor2		Executor3		Executor4
+JVM Processes
+Return results to driver program
+Provides in-memory storage
+
+Apache Spark Architecture: Run time architecture of spark application.
+
+Here Master Slave architecture will be used.
+
+Client -> DriverNode
+
+Client submits user application code, Transformation and Actions to DriverNode
+
+DriverNode:
+
+Once Code is received from client, DriverNode convert code into DAG(Directed Acyclic graph)
+										 ___
+										|___|						Physical Execution Plan				Task1
+UserApplication Code					   																Task2
+Transformation				->			 ___		->				Stage1		Stage2			->		Task3
+Action                                  |___|						 Task1		 Task3                  Task4
+																	 Task2       Task4
+										 ___
+                                        |___|
+										
+Once code is converted int DAG and an execution plan is created, tasks will be created from it and bundled and sent to Cluster manager.
+
+Cluster Manger launches executor in worker nodes. Now Driver will send task to executor based on data placements. 
+When executor start executing task, it will registor will driver. By doing this driver has complete details of tasks and executors
