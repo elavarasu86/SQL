@@ -1,0 +1,71 @@
+STREAMING TABLES:
+
+	Streaming table are good choice for
+		- Each input row is handled only once
+		- Can handle large value of append-only data.
+		- Low latency
+
+Python:
+
+import dlt
+
+# create a streaming table
+@dlt.table
+def customers_bronze():
+  return (
+    spark.readStream.format("cloudFiles")				#CloudFiles
+     .option("cloudFiles.format", "json")				#Format specifier
+     .option("cloudFiles.inferColumnTypes", "true")		#Infers Column
+     .load("/Volumes/path/to/files")					#path of cloudFiles
+  )
+  
+ When you use the spark.readStream function in a dataset definition, it causes Lakeflow Declarative Pipelines to treat the dataset as a stream, and the table created is a streaming table.
+ 
+SQL:
+-- create a streaming table
+CREATE OR REFRESH STREAMING TABLE customers_bronze
+AS SELECT * FROM STREAM read_files(
+  "/volumes/path/to/files",
+  format => "json"
+);
+ 
+Input 1:
+
+Row 1: {"nme": "Zach"}
+Row 2: {"nme": "Zara"}
+Row 3: {"nme": "Zee"}
+
+Above input records are processed where issuing below select statement.
+
+SELECT LOWER(name) FROM data;
+
+Output:
+zach
+zara
+zee
+
+Input 2:
+
+Row 4: {"nme": "Zev"}
+
+Above input records are processed where issuing below select statement.
+
+SELECT LOWER(name) FROM data;
+
+Output:
+Zev
+
+Input 3:
+
+Row 1: {"nme": "Zach"}
+Row 5: {"nme": "zoe"}
+
+Above input records are processed where issuing below select statement.
+
+SELECT UPPER(name) FROM data;
+
+Output:
+ZOE
+ZACH never gets produced because Row1 has been seen already.
+
+A row that has already been appended to a streaming table will not be re-queried with later updates to the pipeline. If you modify the query (for example, from SELECT LOWER (name) to SELECT UPPER (name)), existing rows will not update to be upper case, but new rows will be upper case. You can trigger a full refresh to requery all previous data from the source table to update all rows in the streaming table.
